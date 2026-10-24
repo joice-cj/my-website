@@ -1,29 +1,64 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My First Website</title>
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "b52af67d-d309-4fa9-ada6-a6adb3c0073f",
-    });
-  });
-</script>
-</head>
-<body style="text-align:center; font-family:Arial;">
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My First Website</title>
+
+    <script
+        src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"
+        defer
+    ></script>
+
+    <script>
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+
+        OneSignalDeferred.push(async function (OneSignal) {
+            await OneSignal.init({
+                appId: "b52af67d-d309-4fa9-ada6-a6adb3c0073f"
+            });
+
+            console.log("OneSignal initialized!");
+
+            // Test: associate this browser with an external user ID.
+            document.getElementById("loginButton")
+                .addEventListener("click", async function () {
+                    try {
+                        await OneSignal.login("user_12345");
+
+                        console.log("Login method completed!");
+                        console.log(
+                            "External ID:",
+                            OneSignal.User.externalId
+                        );
+                        console.log(
+                            "OneSignal User ID:",
+                            OneSignal.User.onesignalId
+                        );
+                    } catch (error) {
+                        console.error("Login failed:", error);
+                    }
+                });
+        });
+
+        function showMessage() {
+            alert("Hello! Your website is working!");
+        }
+    </script>
+</head>
+
+<body style="text-align:center; font-family:Arial;">
     <h1>Welcome to My Website 🚀</h1>
     <p>This is my first GitHub website!</p>
 
     <button onclick="showMessage()">Click Me</button>
 
-    <script>
-        function showMessage() {
-            alert("Hello! Your website is working 🎉");
-        }
-    </script>
+    <hr>
 
+    <h2>OneSignal Login Test</h2>
+    <p>Click below to associate this browser with a test user.</p>
+    <button id="loginButton">Test OneSignal Login</button>
 </body>
 </html>
